@@ -8,4 +8,5 @@ export interface Post {
 export interface PostsState {
   status: 'idle' | 'loading' | 'failed'
   postList: Post[]
+  post: Post | Record<string, never>
 }
