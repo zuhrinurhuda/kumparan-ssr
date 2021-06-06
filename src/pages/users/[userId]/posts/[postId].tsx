@@ -1,6 +1,8 @@
 import type { GetStaticPaths, NextPage } from 'next'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
+import { fetchCommentsByPostIdAction } from '../../../../app/comments/action'
+import { selectCommentList } from '../../../../app/comments/selector'
 import { fetchPostByIdAction } from '../../../../app/posts/action'
 import { fetchPostsByUserId } from '../../../../app/posts/api'
 import { selectPost } from '../../../../app/posts/selector'
@@ -12,6 +14,7 @@ import { selectUser } from '../../../../app/users/selector'
 const IndexPage: NextPage = () => {
   const user = useSelector(selectUser)
   const post = useSelector(selectPost)
+  const comments = useSelector(selectCommentList)
 
   return (
     <div>
@@ -30,6 +33,14 @@ const IndexPage: NextPage = () => {
         </ul>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
+        {comments.map((comment) => {
+          return (
+            <div key={comment.id}>
+              <p>{comment.body}</p>
+              <p>{`${comment.name} - ${comment.email}`}</p>
+            </div>
+          )
+        })}
       </main>
     </div>
   )
@@ -64,6 +75,7 @@ export const getStaticProps = wrapper.getStaticProps(
     async ({ params }) => {
       await store.dispatch(fetchUserByIdAction(params.userId as string))
       await store.dispatch(fetchPostByIdAction(params.postId as string))
+      await store.dispatch(fetchCommentsByPostIdAction(params.postId as string))
       return {
         props: {},
       }

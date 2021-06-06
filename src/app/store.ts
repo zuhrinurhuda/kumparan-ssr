@@ -3,6 +3,7 @@ import { createWrapper } from 'next-redux-wrapper'
 import { Action } from 'redux'
 import counterReducer from '../features/counter/counterSlice'
 import albumsReducer from './albums/reducer'
+import commentsReducer from './comments/reducer'
 import postsReducer from './posts/reducer'
 import usersReducer from './users/reducer'
 
@@ -13,6 +14,7 @@ export const makeStore = () =>
       users: usersReducer,
       posts: postsReducer,
       albums: albumsReducer,
+      comments: commentsReducer,
     },
     devTools: process.env.NODE_ENV === 'development',
   })
