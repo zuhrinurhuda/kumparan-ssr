@@ -25,4 +25,5 @@ export interface User {
 export interface UsersState {
   status: 'idle' | 'loading' | 'failed'
   userList: User[]
+  user: User | Record<string, never>
 }

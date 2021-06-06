@@ -1,6 +1,6 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { fetchUserListAction } from './action'
+import { fetchUserByIdAction, fetchUserListAction } from './action'
 import { initialState } from './state'
 
 const usersReducer = createReducer(initialState, (builder) => {
@@ -19,6 +19,16 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.userList = action.payload
     })
     .addCase(fetchUserListAction.rejected, (state) => {
+      state.status = 'failed'
+    })
+    .addCase(fetchUserByIdAction.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(fetchUserByIdAction.fulfilled, (state, action) => {
+      state.status = 'idle'
+      state.user = action.payload
+    })
+    .addCase(fetchUserByIdAction.rejected, (state) => {
       state.status = 'failed'
     })
 })
