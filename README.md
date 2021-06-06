@@ -23,11 +23,10 @@ yarn create next-app --example with-redux-toolkit-typescript with-redux-toolkit-
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
 
 ● User can view list of users                               /
-  ● User can view the detail of each user                   /users/userId
-● User can view list of posts of each user                  /users/userId/posts
+● User can view list of posts of each user                  /users/userId
   ● User can view the detail of each post and its comment   /users/userId/posts/postId
     ● User can add, edit and delete post                      
     ● User can add, edit and delete comment                   
-● User can view list of albums of each user                 /users/userId/albums
+● User can view list of albums of each user                 /users/userId
   ● User can view list of photos from an album              /users/userId/albums/albumId
-    ● User can view the detail of photo                     /users/userId/albums/photoId
+    ● User can view the detail of photo                     /users/userId/albums/albumId/photos/photoId

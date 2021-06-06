@@ -2,6 +2,8 @@ import { configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 import { Action } from 'redux'
 import counterReducer from '../features/counter/counterSlice'
+import albumsReducer from './albums/reducer'
+import postsReducer from './posts/reducer'
 import usersReducer from './users/reducer'
 
 export const makeStore = () =>
@@ -9,6 +11,8 @@ export const makeStore = () =>
     reducer: {
       counter: counterReducer,
       users: usersReducer,
+      posts: postsReducer,
+      albums: albumsReducer,
     },
     devTools: process.env.NODE_ENV === 'development',
   })
