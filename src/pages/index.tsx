@@ -1,10 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-
-import Counter from '../features/counter/Counter'
+import { useSelector, useStore } from 'react-redux'
+import { wrapper } from '../app/store'
+import { fetchUserListAction } from '../app/users/action'
+import { selectUserList } from '../app/users/selector'
 import styles from '../styles/Home.module.css'
 
-const IndexPage: NextPage = () => {
+const IndexPage: NextPage = (props) => {
+  console.log('State on render', useStore().getState(), props)
+  const userList = useSelector(selectUserList)
+  console.log('userList', userList)
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +18,6 @@ const IndexPage: NextPage = () => {
       </Head>
       <header className={styles.header}>
         <img src="/logo.svg" className={styles.logo} alt="logo" />
-        <Counter />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -59,5 +63,13 @@ const IndexPage: NextPage = () => {
     </div>
   )
 }
+
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchUserListAction())
+  console.log('State on server', store.getState())
+  return {
+    props: {},
+  }
+})
 
 export default IndexPage
