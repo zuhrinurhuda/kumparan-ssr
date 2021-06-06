@@ -22,7 +22,7 @@ const IndexPage: NextPage = (props) => {
           return (
             <Link key={user.id} as={`/users/${user.id}`} href="/users/[userId]">
               <div>
-                <p>{`@${user.username}`}</p>
+                <h2>{`@${user.username}`}</h2>
                 <ul>
                   <li>{`name: ${user.name}`}</li>
                   <li>{`email: ${user.email}`}</li>

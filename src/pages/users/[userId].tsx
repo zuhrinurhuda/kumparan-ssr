@@ -1,7 +1,7 @@
 import type { GetStaticPaths, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { fetchAlbumsByUserIdAction } from '../../app/albums/action'
 import { selectAlbumList } from '../../app/albums/selector'
 import { fetchPostsByUserIdAction } from '../../app/posts/action'
@@ -11,8 +11,7 @@ import { fetchUserByIdAction } from '../../app/users/action'
 import { fetchUserList } from '../../app/users/api'
 import { selectUser } from '../../app/users/selector'
 
-const IndexPage: NextPage = (props) => {
-  console.log('State on render', useStore().getState(), props)
+const IndexPage: NextPage = () => {
   const user = useSelector(selectUser)
   const postList = useSelector(selectPostList)
   const albumList = useSelector(selectAlbumList)
@@ -20,18 +19,19 @@ const IndexPage: NextPage = (props) => {
   return (
     <div>
       <Head>
-        <title>Home page</title>
+        <title>User detail page</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header></header>
       <main>
-        <p>{`@${user.username}`}</p>
+        <h2>{`@${user.username}`}</h2>
         <ul>
           <li>{`name: ${user.name}`}</li>
           <li>{`email: ${user.email}`}</li>
           <li>{`phone: ${user.phone}`}</li>
           <li>{`website: ${user.website}`}</li>
         </ul>
+        <h2>Posts</h2>
         {postList.map((post) => {
           return (
             <Link
@@ -44,6 +44,7 @@ const IndexPage: NextPage = (props) => {
           )
         })}
         <hr />
+        <h2>Albums</h2>
         {albumList.map((album) => {
           return (
             <Link
@@ -78,11 +79,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = wrapper.getStaticProps(
   (store) =>
     async ({ params }) => {
-      console.log('params', params)
       await store.dispatch(fetchUserByIdAction(params.userId as string))
       await store.dispatch(fetchPostsByUserIdAction(params.userId as string))
       await store.dispatch(fetchAlbumsByUserIdAction(params.userId as string))
-      console.log('State on server', store.getState())
       return {
         props: {},
       }
