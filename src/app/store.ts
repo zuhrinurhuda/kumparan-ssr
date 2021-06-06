@@ -4,6 +4,7 @@ import { Action } from 'redux'
 import counterReducer from '../features/counter/counterSlice'
 import albumsReducer from './albums/reducer'
 import commentsReducer from './comments/reducer'
+import photosReducer from './photos/reducer'
 import postsReducer from './posts/reducer'
 import usersReducer from './users/reducer'
 
@@ -15,6 +16,7 @@ export const makeStore = () =>
       posts: postsReducer,
       albums: albumsReducer,
       comments: commentsReducer,
+      photos: photosReducer,
     },
     devTools: process.env.NODE_ENV === 'development',
   })
