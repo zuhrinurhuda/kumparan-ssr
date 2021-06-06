@@ -7,4 +7,5 @@ export interface Album {
 export interface AlbumsState {
   status: 'idle' | 'loading' | 'failed'
   albumList: Album[]
+  album: Album | Record<string, never>
 }
