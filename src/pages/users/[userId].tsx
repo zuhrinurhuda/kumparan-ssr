@@ -79,9 +79,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = wrapper.getStaticProps(
   (store) =>
     async ({ params }) => {
-      await store.dispatch(fetchUserByIdAction(params.userId as string))
-      await store.dispatch(fetchPostsByUserIdAction(params.userId as string))
-      await store.dispatch(fetchAlbumsByUserIdAction(params.userId as string))
+      await store.dispatch(fetchUserByIdAction(Number(params.userId)))
+      await store.dispatch(fetchPostsByUserIdAction(Number(params.userId)))
+      await store.dispatch(fetchAlbumsByUserIdAction(Number(params.userId)))
       return {
         props: {},
       }

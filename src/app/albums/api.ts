@@ -1,4 +1,4 @@
-export const fetchAlbumsByUserId = async (userId: string) => {
+export const fetchAlbumsByUserId = async (userId: number) => {
   try {
     const response = await fetch(
       `${process.env.BASE_URL}/albums?userId=${userId}`,
@@ -12,7 +12,7 @@ export const fetchAlbumsByUserId = async (userId: string) => {
   }
 }
 
-export const fetchAlbumById = async (albumId: string) => {
+export const fetchAlbumById = async (albumId: number) => {
   try {
     const response = await fetch(`${process.env.BASE_URL}/albums/${albumId}`, {
       method: 'GET',

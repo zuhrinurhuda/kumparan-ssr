@@ -3,7 +3,7 @@ import { fetchPhotoById, fetchPhotosByAlbumId } from './api'
 
 export const fetchPhotosByAlbumIdAction = createAsyncThunk(
   `photos/fetchByAlbumId`,
-  async (albumId: string) => {
+  async (albumId: number) => {
     const response = await fetchPhotosByAlbumId(albumId)
     return response
   }
@@ -11,7 +11,7 @@ export const fetchPhotosByAlbumIdAction = createAsyncThunk(
 
 export const fetchPhotoByIdAction = createAsyncThunk(
   `photos/fetchById`,
-  async (photoId: string) => {
+  async (photoId: number) => {
     const response = await fetchPhotoById(photoId)
     return response
   }

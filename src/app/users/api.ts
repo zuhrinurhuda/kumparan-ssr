@@ -9,7 +9,7 @@ export const fetchUserList = async () => {
   }
 }
 
-export const fetchUserById = async (userId: string) => {
+export const fetchUserById = async (userId: number) => {
   try {
     const response = await fetch(`${process.env.BASE_URL}/users/${userId}`, {
       method: 'GET',

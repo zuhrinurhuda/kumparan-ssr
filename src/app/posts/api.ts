@@ -1,4 +1,4 @@
-export const fetchPostsByUserId = async (userId: string) => {
+export const fetchPostsByUserId = async (userId: number) => {
   try {
     const response = await fetch(
       `${process.env.BASE_URL}/posts?userId=${userId}`,
@@ -12,7 +12,7 @@ export const fetchPostsByUserId = async (userId: string) => {
   }
 }
 
-export const fetchPostById = async (postId: string) => {
+export const fetchPostById = async (postId: number) => {
   try {
     const response = await fetch(`${process.env.BASE_URL}/posts/${postId}`, {
       method: 'GET',
