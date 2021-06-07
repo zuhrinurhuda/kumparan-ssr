@@ -11,7 +11,7 @@ import { fetchUserByIdAction } from '../../app/users/action'
 import { fetchUserList } from '../../app/users/api'
 import { selectUser } from '../../app/users/selector'
 
-const IndexPage: NextPage = () => {
+const UserDetailPage: NextPage = () => {
   const user = useSelector(selectUser)
   const postList = useSelector(selectPostList)
   const albumList = useSelector(selectAlbumList)
@@ -88,4 +88,4 @@ export const getStaticProps = wrapper.getStaticProps(
     }
 )
 
-export default IndexPage
+export default UserDetailPage

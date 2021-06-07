@@ -11,10 +11,10 @@ import { fetchUserByIdAction } from '../../../../app/users/action'
 import { fetchUserList } from '../../../../app/users/api'
 import { selectUser } from '../../../../app/users/selector'
 
-const PostsPage: NextPage = () => {
+const PostDetailPage: NextPage = () => {
   const user = useSelector(selectUser)
   const post = useSelector(selectPost)
-  const comments = useSelector(selectCommentList)
+  const commentList = useSelector(selectCommentList)
 
   return (
     <div>
@@ -33,7 +33,7 @@ const PostsPage: NextPage = () => {
         </ul>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
-        {comments.map((comment) => {
+        {commentList.map((comment) => {
           return (
             <div key={comment.id}>
               <p>{comment.body}</p>
@@ -48,14 +48,14 @@ const PostsPage: NextPage = () => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const userList = await fetchUserList()
-  const userPosts = []
+  const userPostList = []
 
   for (const user of userList) {
     const posts = await fetchPostsByUserId(user.id)
-    userPosts.push(...posts)
+    userPostList.push(...posts)
   }
 
-  const paths = userPosts.map((post) => {
+  const paths = userPostList.map((post) => {
     return {
       params: {
         userId: post.userId.toString(),
@@ -82,4 +82,4 @@ export const getStaticProps = wrapper.getStaticProps(
     }
 )
 
-export default PostsPage
+export default PostDetailPage

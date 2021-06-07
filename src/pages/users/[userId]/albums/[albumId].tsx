@@ -12,10 +12,10 @@ import { fetchUserByIdAction } from '../../../../app/users/action'
 import { fetchUserList } from '../../../../app/users/api'
 import { selectUser } from '../../../../app/users/selector'
 
-const AlbumsPage: NextPage = () => {
+const AlbumDetailPage: NextPage = () => {
   const user = useSelector(selectUser)
   const album = useSelector(selectAlbum)
-  const photos = useSelector(selectPhotoList)
+  const photoList = useSelector(selectPhotoList)
 
   return (
     <div>
@@ -33,12 +33,12 @@ const AlbumsPage: NextPage = () => {
           <li>{`website: ${user.website}`}</li>
         </ul>
         <h2>{album.title}</h2>
-        {photos.map((photo) => {
+        {photoList.map((photo) => {
           return (
             <Link
               key={photo.id}
               as={`/users/${user.id}/albums/${album.id}/photos/${photo.id}`}
-              href="/users/[userId]/albums/[albumId]/photos/photoId"
+              href="/users/[userId]/albums/[albumId]/photos/[photoId]"
             >
               <img src={photo.thumbnailUrl} alt={photo.title} />
             </Link>
@@ -51,14 +51,14 @@ const AlbumsPage: NextPage = () => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const userList = await fetchUserList()
-  const userAlbums = []
+  const userAlbumList = []
 
   for (const user of userList) {
     const posts = await fetchAlbumsByUserId(user.id)
-    userAlbums.push(...posts)
+    userAlbumList.push(...posts)
   }
 
-  const paths = userAlbums.map((album) => {
+  const paths = userAlbumList.map((album) => {
     return {
       params: {
         userId: album.userId.toString(),
@@ -79,11 +79,10 @@ export const getStaticProps = wrapper.getStaticProps(
       await store.dispatch(fetchUserByIdAction(params.userId as string))
       await store.dispatch(fetchAlbumByIdAction(params.albumId as string))
       await store.dispatch(fetchPhotosByAlbumIdAction(params.albumId as string))
-      console.log('State on server', store.getState())
       return {
         props: {},
       }
     }
 )
 
-export default AlbumsPage
+export default AlbumDetailPage

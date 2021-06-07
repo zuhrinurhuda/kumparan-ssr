@@ -1,13 +1,12 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { wrapper } from '../app/store'
 import { fetchUserListAction } from '../app/users/action'
 import { selectUserList } from '../app/users/selector'
 
-const IndexPage: NextPage = (props) => {
-  console.log('State on render', useStore().getState(), props)
+const IndexPage: NextPage = () => {
   const userList = useSelector(selectUserList)
 
   return (
@@ -40,7 +39,6 @@ const IndexPage: NextPage = (props) => {
 
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   await store.dispatch(fetchUserListAction())
-  console.log('State on server', store.getState())
   return {
     props: {},
   }
