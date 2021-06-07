@@ -9,4 +9,5 @@ export interface Photo {
 export interface PhotosState {
   status: 'idle' | 'loading' | 'failed'
   photoList: Photo[]
+  photo: Photo | Record<string, never>
 }
