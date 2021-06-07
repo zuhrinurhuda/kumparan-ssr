@@ -1,63 +1,47 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-
-import Counter from '../features/counter/Counter'
-import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import { useSelector } from 'react-redux'
+import { wrapper } from '../app/store'
+import { fetchUserListAction } from '../app/users/action'
+import { selectUserList } from '../app/users/selector'
 
 const IndexPage: NextPage = () => {
+  const userList = useSelector(selectUserList)
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Redux Toolkit</title>
+        <title>Home page</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className={styles.header}>
-        <img src="/logo.svg" className={styles.logo} alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className={styles.link}
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className={styles.link}
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className={styles.link}
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className={styles.link}
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <header></header>
+      <main>
+        {userList.map((user) => {
+          return (
+            <Link key={user.id} as={`/users/${user.id}`} href="/users/[userId]">
+              <div>
+                <h2>{`@${user.username}`}</h2>
+                <ul>
+                  <li>{`name: ${user.name}`}</li>
+                  <li>{`email: ${user.email}`}</li>
+                  <li>{`phone: ${user.phone}`}</li>
+                  <li>{`website: ${user.website}`}</li>
+                </ul>
+              </div>
+            </Link>
+          )
+        })}
+      </main>
     </div>
   )
 }
+
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchUserListAction())
+  return {
+    props: {},
+  }
+})
 
 export default IndexPage
