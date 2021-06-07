@@ -1,6 +1,10 @@
 import { AnyAction, createReducer } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { createCommentAction, fetchCommentsByPostIdAction } from './action'
+import {
+  createCommentAction,
+  deleteCommentAction,
+  fetchCommentsByPostIdAction,
+} from './action'
 import { initialState } from './state'
 
 const usersReducer = createReducer(initialState, (builder) => {
@@ -29,6 +33,19 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.commentList.push(action.payload)
     })
     .addCase(createCommentAction.rejected, (state) => {
+      state.status = 'failed'
+    })
+    .addCase(deleteCommentAction.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(deleteCommentAction.fulfilled, (state, action) => {
+      state.status = 'idle'
+      const filteredComment = state.commentList.filter(
+        (comment) => comment.id !== action.payload
+      )
+      state.commentList = filteredComment
+    })
+    .addCase(deleteCommentAction.rejected, (state) => {
       state.status = 'failed'
     })
 })

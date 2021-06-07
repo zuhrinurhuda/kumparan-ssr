@@ -3,6 +3,7 @@ import Head from 'next/head'
 import React from 'react'
 import {
   createCommentAction,
+  deleteCommentAction,
   fetchCommentsByPostIdAction,
 } from '../../../../app/comments/action'
 import { selectCommentList } from '../../../../app/comments/selector'
@@ -47,6 +48,10 @@ const PostDetailPage: NextPage = () => {
     comment.value = ''
   }
 
+  const handleDeleteComment = async (commentId: number) => {
+    await dispatch(deleteCommentAction(commentId))
+  }
+
   return (
     <div>
       <Head>
@@ -70,6 +75,9 @@ const PostDetailPage: NextPage = () => {
               <hr />
               <p>{comment.body}</p>
               <p>{`${comment.name} - ${comment.email}`}</p>
+              <button onClick={() => handleDeleteComment(comment.id)}>
+                Delete
+              </button>
             </div>
           )
         })}

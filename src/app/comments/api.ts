@@ -32,3 +32,14 @@ export const createComment = async (reqBody: CommentReqBody) => {
     console.log('error', error)
   }
 }
+
+export const deleteComment = async (commentId: number) => {
+  try {
+    await fetch(`https://jsonplaceholder.typicode.com/comments/${commentId}`, {
+      method: 'DELETE',
+    })
+    return commentId
+  } catch (error) {
+    console.log('error', error)
+  }
+}
