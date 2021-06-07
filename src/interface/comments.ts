@@ -11,9 +11,14 @@ export interface CommentsState {
   commentList: Comment[]
 }
 
-export interface CommentReqBody {
+export interface CommentPost {
   postId: number | string
-  name?: string
+  name: string
   email: string
+  body: string
+}
+
+export interface CommentPatch {
+  commentId: number
   body: string
 }

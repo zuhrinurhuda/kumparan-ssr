@@ -4,6 +4,7 @@ import {
   createCommentAction,
   deleteCommentAction,
   fetchCommentsByPostIdAction,
+  updateCommentAction,
 } from './action'
 import { initialState } from './state'
 
@@ -33,6 +34,19 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.commentList.push(action.payload)
     })
     .addCase(createCommentAction.rejected, (state) => {
+      state.status = 'failed'
+    })
+    .addCase(updateCommentAction.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(updateCommentAction.fulfilled, (state, action) => {
+      state.status = 'idle'
+      const index = state.commentList.findIndex(
+        (comment) => comment.id === action.payload.id
+      )
+      state.commentList.splice(index, 1, action.payload)
+    })
+    .addCase(updateCommentAction.rejected, (state) => {
       state.status = 'failed'
     })
     .addCase(deleteCommentAction.pending, (state) => {

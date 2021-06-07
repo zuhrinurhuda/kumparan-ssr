@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CommentReqBody } from '../../interface/comments'
-import { createComment, deleteComment, fetchCommentsByPostId } from './api'
+import { CommentPatch, CommentPost } from '../../interface/comments'
+import {
+  createComment,
+  deleteComment,
+  fetchCommentsByPostId,
+  updateComment,
+} from './api'
 
 export const fetchCommentsByPostIdAction = createAsyncThunk(
   `comments/fetchByPostId`,
@@ -12,8 +17,16 @@ export const fetchCommentsByPostIdAction = createAsyncThunk(
 
 export const createCommentAction = createAsyncThunk(
   `comments/create`,
-  async (reqBody: CommentReqBody) => {
+  async (reqBody: CommentPost) => {
     const response = await createComment(reqBody)
+    return response
+  }
+)
+
+export const updateCommentAction = createAsyncThunk(
+  `comments/update`,
+  async (reqBody: CommentPatch) => {
+    const response = await updateComment(reqBody)
     return response
   }
 )

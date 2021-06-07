@@ -1,4 +1,4 @@
-import { CommentReqBody } from '../../interface/comments'
+import { CommentPatch, CommentPost } from '../../interface/comments'
 
 export const fetchCommentsByPostId = async (postId: number) => {
   try {
@@ -14,13 +14,32 @@ export const fetchCommentsByPostId = async (postId: number) => {
   }
 }
 
-export const createComment = async (reqBody: CommentReqBody) => {
+export const createComment = async (reqBody: CommentPost) => {
   try {
     const rawResponse = await fetch(
       'https://jsonplaceholder.typicode.com/comments',
       {
         method: 'POST',
         body: JSON.stringify(reqBody),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }
+    )
+    const response = await rawResponse.json()
+    return response
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export const updateComment = async ({ commentId, body }: CommentPatch) => {
+  try {
+    const rawResponse = await fetch(
+      `https://jsonplaceholder.typicode.com/comments/${commentId}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ body }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
