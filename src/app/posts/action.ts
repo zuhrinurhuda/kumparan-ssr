@@ -3,7 +3,7 @@ import { fetchPostById, fetchPostsByUserId } from './api'
 
 export const fetchPostsByUserIdAction = createAsyncThunk(
   `posts/fetchByUserId`,
-  async (userId: string) => {
+  async (userId: number) => {
     const response = await fetchPostsByUserId(userId)
     return response
   }
@@ -11,7 +11,7 @@ export const fetchPostsByUserIdAction = createAsyncThunk(
 
 export const fetchPostByIdAction = createAsyncThunk(
   `posts/fetchById`,
-  async (postId: string) => {
+  async (postId: number) => {
     const response = await fetchPostById(postId)
     return response
   }

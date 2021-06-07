@@ -11,7 +11,7 @@ export const fetchUserListAction = createAsyncThunk(
 
 export const fetchUserByIdAction = createAsyncThunk(
   `users/fetchById`,
-  async (userId: string) => {
+  async (userId: number) => {
     const response = await fetchUserById(userId)
     return response
   }
