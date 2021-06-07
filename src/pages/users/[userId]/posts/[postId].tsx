@@ -1,8 +1,12 @@
 import type { GetStaticPaths, NextPage } from 'next'
 import Head from 'next/head'
-import { useSelector } from 'react-redux'
-import { fetchCommentsByPostIdAction } from '../../../../app/comments/action'
+import React from 'react'
+import {
+  createCommentAction,
+  fetchCommentsByPostIdAction,
+} from '../../../../app/comments/action'
 import { selectCommentList } from '../../../../app/comments/selector'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { fetchPostByIdAction } from '../../../../app/posts/action'
 import { fetchPostsByUserId } from '../../../../app/posts/api'
 import { selectPost } from '../../../../app/posts/selector'
@@ -11,10 +15,37 @@ import { fetchUserByIdAction } from '../../../../app/users/action'
 import { fetchUserList } from '../../../../app/users/api'
 import { selectUser } from '../../../../app/users/selector'
 
+type FormInput = {
+  name: { value: string }
+  email: { value: string }
+  comment: { value: string }
+}
+
 const PostDetailPage: NextPage = () => {
-  const user = useSelector(selectUser)
-  const post = useSelector(selectPost)
-  const commentList = useSelector(selectCommentList)
+  const dispatch = useAppDispatch()
+
+  const user = useAppSelector(selectUser)
+  const post = useAppSelector(selectPost)
+  const commentList = useAppSelector(selectCommentList)
+
+  const handleAddComment = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+
+    const { name, email, comment } = e.target as typeof e.target & FormInput
+
+    await dispatch(
+      createCommentAction({
+        postId: post.id,
+        name: name.value,
+        email: email.value,
+        body: comment.value,
+      })
+    )
+
+    name.value = ''
+    email.value = ''
+    comment.value = ''
+  }
 
   return (
     <div>
@@ -36,11 +67,22 @@ const PostDetailPage: NextPage = () => {
         {commentList.map((comment) => {
           return (
             <div key={comment.id}>
+              <hr />
               <p>{comment.body}</p>
               <p>{`${comment.name} - ${comment.email}`}</p>
             </div>
           )
         })}
+        <hr />
+        <form onSubmit={handleAddComment}>
+          <label htmlFor="name">Name:</label>
+          <input id="name" name="name" />
+          <label htmlFor="email">Email:</label>
+          <input id="email" type="email" name="email" />
+          <label htmlFor="comment">Add comment:</label>
+          <input id="comment" name="comment" />
+          <button type="submit">Add</button>
+        </form>
       </main>
     </div>
   )
@@ -73,9 +115,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = wrapper.getStaticProps(
   (store) =>
     async ({ params }) => {
-      await store.dispatch(fetchUserByIdAction(params.userId as string))
-      await store.dispatch(fetchPostByIdAction(params.postId as string))
-      await store.dispatch(fetchCommentsByPostIdAction(params.postId as string))
+      await store.dispatch(fetchUserByIdAction(Number(params.userId)))
+      await store.dispatch(fetchPostByIdAction(Number(params.postId)))
+      await store.dispatch(fetchCommentsByPostIdAction(Number(params.postId)))
       return {
         props: {},
       }
