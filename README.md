@@ -15,7 +15,7 @@ yarn dev
 
 ## Demo
 
-Demo link [`https://kumparan-ssr.vercel.app`](https://kumparan-ssr.vercel.app/users/1)
+Demo link [`https://kumparan-ssr.vercel.app`](https://kumparan-ssr.vercel.app)
 This demo is deployed to the cloud using [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
 
 ## Routes
