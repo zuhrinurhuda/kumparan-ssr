@@ -1,39 +1,28 @@
 import type { GetStaticPaths, NextPage } from 'next'
 import Head from 'next/head'
-import { useSelector } from 'react-redux'
 import { fetchAlbumByIdAction } from '../../../../../../app/albums/action'
 import { fetchAlbumList } from '../../../../../../app/albums/api'
 import { selectAlbum } from '../../../../../../app/albums/selector'
+import { useAppSelector } from '../../../../../../app/hooks'
 import { fetchPhotoByIdAction } from '../../../../../../app/photos/action'
 import { fetchPhotosByAlbumId } from '../../../../../../app/photos/api'
-import { selectPhoto } from '../../../../../../app/photos/selector'
 import { wrapper } from '../../../../../../app/store'
 import { fetchUserByIdAction } from '../../../../../../app/users/action'
-import { selectUser } from '../../../../../../app/users/selector'
+import PhotoDetail from '../../../../../../features/photos/PhotoDetail'
 
 const PhotoDetailPage: NextPage = () => {
-  const user = useSelector(selectUser)
-  const album = useSelector(selectAlbum)
-  const photo = useSelector(selectPhoto)
-
+  const album = useAppSelector(selectAlbum)
   return (
     <div>
       <Head>
         <title>Photo detail page</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header></header>
+      <header>
+        <h1>{`@${album.title} album`}</h1>
+      </header>
       <main>
-        <h2>{`@${user.username}`}</h2>
-        <ul>
-          <li>{`name: ${user.name}`}</li>
-          <li>{`email: ${user.email}`}</li>
-          <li>{`phone: ${user.phone}`}</li>
-          <li>{`website: ${user.website}`}</li>
-        </ul>
-        <h2>{album.title}</h2>
-        <h3>{photo.title}</h3>
-        <img src={photo.url} alt={photo.title} />
+        <PhotoDetail />
       </main>
     </div>
   )
