@@ -1,49 +1,28 @@
 import type { GetStaticPaths, NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import { fetchAlbumByIdAction } from '../../../../app/albums/action'
 import { fetchAlbumsByUserId } from '../../../../app/albums/api'
-import { selectAlbum } from '../../../../app/albums/selector'
+import { useAppSelector } from '../../../../app/hooks'
 import { fetchPhotosByAlbumIdAction } from '../../../../app/photos/action'
-import { selectPhotoList } from '../../../../app/photos/selector'
 import { wrapper } from '../../../../app/store'
 import { fetchUserByIdAction } from '../../../../app/users/action'
 import { fetchUserList } from '../../../../app/users/api'
 import { selectUser } from '../../../../app/users/selector'
+import AlbumDetail from '../../../../features/albums/AlbumDetail'
 
 const AlbumDetailPage: NextPage = () => {
-  const user = useSelector(selectUser)
-  const album = useSelector(selectAlbum)
-  const photoList = useSelector(selectPhotoList)
-
+  const user = useAppSelector(selectUser)
   return (
     <div>
       <Head>
         <title>Album detail page</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header></header>
+      <header>
+        <h1>{`@${user.username} Album`}</h1>
+      </header>
       <main>
-        <h2>{`@${user.username}`}</h2>
-        <ul>
-          <li>{`name: ${user.name}`}</li>
-          <li>{`email: ${user.email}`}</li>
-          <li>{`phone: ${user.phone}`}</li>
-          <li>{`website: ${user.website}`}</li>
-        </ul>
-        <h2>{album.title}</h2>
-        {photoList.map((photo) => {
-          return (
-            <Link
-              key={photo.id}
-              as={`/users/${user.id}/albums/${album.id}/photos/${photo.id}`}
-              href="/users/[userId]/albums/[albumId]/photos/[photoId]"
-            >
-              <img src={photo.thumbnailUrl} alt={photo.title} />
-            </Link>
-          )
-        })}
+        <AlbumDetail />
       </main>
     </div>
   )
